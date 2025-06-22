@@ -1,7 +1,8 @@
 import { useId, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSliders, faCompress } from "@fortawesome/free-solid-svg-icons";
+import { faSliders, faKeyboard } from "@fortawesome/free-solid-svg-icons";
 import { NumberInput } from "./NumberInput";
+import {KeyboardMap} from './Keyboardshortcuts'
 
 type NavbarProps = {
   work: number;
@@ -17,6 +18,8 @@ export function Navbar({ work, setWork, short, setShort, long, setLong }: Navbar
   const shortId = useId();
   const longId = useId();
   const [open, setOpen] = useState(false);
+  const [openKeyboard, setOpenKeyboard] = useState(false);
+
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
@@ -31,14 +34,15 @@ export function Navbar({ work, setWork, short, setShort, long, setLong }: Navbar
   }, []);
 
   const toggle = () => setOpen(!open);
+  const toggleKeyboard = () => setOpenKeyboard(!openKeyboard);
 
   return (
     <>
       <div className="flex flex-row-reverse gap-x-8 p-2 items-center cursor-pointer mb-7">
-        <FontAwesomeIcon icon={faCompress} />
+        <FontAwesomeIcon onClick={toggleKeyboard} icon={ faKeyboard } />
         <FontAwesomeIcon onClick={toggle} icon={faSliders} />
       </div>
-
+      <KeyboardMap open={openKeyboard} setOpen={setOpenKeyboard} />
       {open && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg shadow-lg w-full max-w-md p-0 text-black">
@@ -47,7 +51,7 @@ export function Navbar({ work, setWork, short, setShort, long, setLong }: Navbar
               <h2 className="text-xl font-semibold">Settings</h2>
               <button
                 onClick={() => setOpen(false)}
-                className="text-2xl text-gray-500 hover:text-gray-700 transition"
+                className="text-2xl text-gray-500 hover:text-gray-700 transition hover:cursor-pointer"
                 aria-label="Close"
               >
                 &times;
