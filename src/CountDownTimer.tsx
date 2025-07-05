@@ -39,7 +39,7 @@ export const CountdownTimer: React.FC<CountDownTimerProps> = ({
     if (!keyboardControl) return;
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === "Space") {
-        setIsRunning((prev) => (time > 0 ? !prev : prev));
+        setIsRunning((prev: boolean) => (time > 0 ? !prev : prev)); // Explicit typing for prev
       }
       if (e.key.toLowerCase() === "r") {
         handleReset();
@@ -71,7 +71,7 @@ export const CountdownTimer: React.FC<CountDownTimerProps> = ({
           audio.currentTime = 0;
         }, 3000);
 
-        setCounter((prev) => {
+        setCounter((prev:number) => {
           const updated = prev + 1;
           localStorage.setItem(storageKey, JSON.stringify(updated));
           onCounterChange?.(updated);
