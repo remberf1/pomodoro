@@ -3,7 +3,20 @@ import { Navbar } from "./Nav";
 import { CountdownTimer } from "./CountDownTimer";
 import "./App.css";
 
-function RenderTimesList({ activeTab, setActiveTab, timers }) {
+// Define types for props
+type Timer = {
+  id: number;
+  title: string;
+};
+
+type RenderTimesListProps = {
+  activeTab: string;
+  setActiveTab: React.Dispatch<React.SetStateAction<string>>;
+  timers: Timer[];
+};
+
+// RenderTimesList component
+function RenderTimesList({ activeTab, setActiveTab, timers }: RenderTimesListProps) {
   const tabs = ['Work session', 'Short Break', 'Long Break'];
 
   useEffect(() => {
@@ -52,9 +65,10 @@ function RenderTimesList({ activeTab, setActiveTab, timers }) {
   );
 }
 
+// Main App component
 function App() {
-  const [workCounter, setWorkCounter] = useState(0);
-  const [activeTab, setActiveTab] = useState('Work session');
+  const [workCounter, setWorkCounter] = useState<number>(0); // Explicit number type
+  const [activeTab, setActiveTab] = useState<string>('Work session'); // Explicit string type
 
   useEffect(() => {
     if (workCounter > 0 && workCounter % 4 === 0) {
@@ -62,17 +76,17 @@ function App() {
     }
   }, [workCounter]);
 
-  const [work, setWork] = useState(() => {
+  const [work, setWork] = useState<number>(() => {
     const saved = localStorage.getItem('work');
     return saved ? JSON.parse(saved) : 25;
   });
 
-  const [short, setShort] = useState(() => {
+  const [short, setShort] = useState<number>(() => {
     const saved = localStorage.getItem('short');
     return saved ? JSON.parse(saved) : 5;
   });
 
-  const [long, setLong] = useState(() => {
+  const [long, setLong] = useState<number>(() => {
     const saved = localStorage.getItem('long');
     return saved ? JSON.parse(saved) : 15;
   });
